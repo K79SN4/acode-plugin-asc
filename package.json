@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "name": "acode-plugin-asc",
+    "displayName": "Acode Plugin ASC",
+    "description": "Acode plugin for using the Assemblyscript compiler",
+    "keywords": [
+        "assemblyscript",
+        "acode"
+    ],
+    "version": "0.0.1",
+    "author": "K79SN4",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/k79sn4/acode-plugin-asc.git"
+    },
+    "bugs": {
+        "url": "https://github.com/k79sn4/acode-plugin-asc/issues"
+    },
+    "homepage": "https://github.com/k79sn4/acode-plugin-asc#readme",
+    "devDependencies": {
+        "esbuild": "^0.24.2",
+        "jszip": "^3.10.1"
+    },
+    "dependencies": {
+        "@types/ace": "^0.0.52",
+        "html-tag-js": "^1.8.2",
+        "assemblyscript": "^0.27.31"
+    },
+    "scripts": {
+        "assets": "node scripts/esbuild-assets.mjs",
+        "dev": "node esbuild.config.mjs --serve",
+        "build": "node esbuild.config.mjs"
+    },
+    "files": ["dist/"],
+    "browserslist": "cover 100%,not android < 5"
+}
