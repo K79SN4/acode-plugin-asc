@@ -91,4 +91,4 @@ Contributions to improve this plugin are welcome! Use github [issues](https://gi
 
 ## License
 
-This project is licensed under the Apache 2.0 License. See the [LICENSE](./LICENSE) file for details.
+This project is licensed under the Apache License 2.0. See the [LICENSE](https://github.com/k79sn4/acode-plugin-asc/tree/main/LICENSE) file for details.

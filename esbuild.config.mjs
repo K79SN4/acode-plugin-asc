@@ -24,7 +24,7 @@ const buildConfig = {
     color: true,
     platform: "browser",
     target: ["es2024"],
-    format: "esm",
+    format: "iife",
     outdir: "dist",
     entryPoints: [
         "src/main.js",

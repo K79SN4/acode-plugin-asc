@@ -1,7 +1,7 @@
 {
     "id": "acode.plugin.asc",
     "name": "Acode Plugin ASC",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "dist/main.js",
     "readme": "readme.md",
     "icon": "icon.png",
