@@ -12,135 +12,122 @@ export default {
     printStdout,
 };
 
+/** @type {HTMLElement} */
 let $stdin = null;
+/** @type {HTMLElement} */
 let $stdout = null;
+/** @type {HTMLElement} */
 let $stderr = null;
 
+/**
+ * @param {HTMLElement} $el
+ * @returns {void}
+ */
 function initApp($el) {
     $el.classList.add("acode-plugin-asc");
     $el.append(SidebarStyle());
     $el.append(SidebarHeader());
-    $el.append(SidebarContent());
+    $el.append(SidebarInput());
+    $el.append(SidebarOutput());
 }
 
+/** @returns {HTMLElement} */
 function SidebarStyle() {
     const cssText = `
-.acode-plugin-asc {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-
-.acode-plugin-asc .header {
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-}
-
-.acode-plugin-asc .title {
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.acode-plugin-asc #compile-project-button {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid currentColor;
-    border-radius: 4px;
-    background: none;
-    color: inherit;
-    cursor: pointer;
-}
-
-.acode-plugin-asc #compile-project-button:hover {
-    background-color: var(--active-icon-color);
-}
-
-.acode-plugin-asc .content {
-  padding: 5px;
-}
-
-.acode-plugin-asc #stdin {
-    width: 100%;
-    margin: 0;
-    padding: 8px;
-    resize: horizontal;
-}
-
-.acode-plugin-asc #stdout:before {
-    color: limegreen;
-    content: "STDOUT";
-}
-
-.acode-plugin-asc #stderr:before {
-    color: orangered;
-    content: "STDERR";
-}
-
-#stdout,
-#stderr {
-    margin-top: 8px;
-    max-height: 50vh;
-    overflow: clip !important;
-}
-`;
+ .acode-plugin-asc { padding: 8px; }
+ .acode-plugin-asc .header { text-align: center; font-size: 1.2rem; font-weight: bold; }
+ .acode-plugin-asc label { font-size: 14px; font-weight: bold; }
+ .acode-plugin-asc #compile-project-button { margin: 10px 0; width: 100%; padding: 0.5rem; font-size: 1rem; background: dodgerblue; color: white; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s ease, background-color 0.3s ease; }
+ .acode-plugin-asc #compile-project-button:hover:active { background-color: #0066cc; transform: scale(0.95); }
+ .acode-plugin-asc #stdin { width: 100%; min-height: 2rem; padding: 0.5rem; }
+ .acode-plugin-asc #stdin::placeholder { opacity: 0.5; }
+ .acode-plugin-asc ul { overflow-y: auto; overflow-x: hidden; }
+ .acode-plugin-asc #stdout, .acode-plugin-asc #stderr { max-height: fit-content; width: 100%; min-height: 1rem; animation-duration: 2s; }
+ .acode-plugin-asc .red-text { color: orangered; } 
+ .acode-plugin-asc .green-text { color: mediumseagreen; } 
+ .acode-plugin-asc .blue-text { color: dodgerblue; }`;
 
     return tag("style", {
-        id: "acode-plugin-asc-style",
         textContent: cssText,
     });
 }
 
+/** @returns {HTMLElement} */
 function SidebarHeader() {
     return tag("div", {
         className: "header",
-        children: [Title(), ProjectButton()],
+        children: [Title()],
     });
 
+    /** @returns {HTMLElement} */
     function Title() {
-        return tag("div", {
+        return tag("span", {
             className: "title",
             textContent: "Acode Plugin ASC",
         });
     }
-
-    function ProjectButton() {
-        return tag("button", {
-            id: "compile-project-button",
-            textContent: "Run",
-            onclick: function() {
-                const command = acode.require("asc-compile-project");
-                if (typeof command === "function") {
-                    command();
-                }
-            },
-        });
-    }
 }
 
-function SidebarContent() {
+/** @returns {HTMLElement} */
+function SidebarInput() {
     return tag("div", {
-        className: "content",
         children: [
+            ProjectButton(),
+            tag("label", { className: "blue-text", for: "stdin", textContent: "ARGV" }),
             Stdin(),
-            Stdout(),
-            Stderr()
         ],
     });
 
+    /** @returns {HTMLElement} */
+    function ProjectButton() {
+        return tag("button", {
+            id: "compile-project-button",
+            textContent: "Compile",
+            onclick: function() {
+                /** @type {()=>void} */
+                const action = acode.require("asc-compile-project");
+                action?.();
+            },
+        });
+    }
+
+    /** @returns {HTMLElement} */
     function Stdin() {
         return ($stdin = tag("textarea", {
             id: "stdin",
-            placeholder: "ARGV",
+            placeholder: "Compiler options...",
         }));
     }
+}
 
+/** @returns {HTMLElement} */
+function SidebarOutput() {
+    return tag("ul", {
+        className: "scroll",
+        children: [
+            tag("label", {
+                className: "green-text",
+                textContent: "STDOUT",
+                for: "stderr",
+            }),
+            Stdout(),
+            tag("label", {
+                className: "red-text",
+                textContent: "STDERR",
+                for: "stderr",
+            }),
+            Stderr(),
+        ],
+    });
+
+    /** @returns {HTMLElement} */
     function Stdout() {
         return ($stdout = tag("div", {
             id: "stdout",
         }));
     }
 
+    /** @returns {HTMLElement} */
     function Stderr() {
         return ($stderr = tag("div", {
             id: "stderr",
@@ -148,21 +135,35 @@ function SidebarContent() {
     }
 }
 
+/** @returns {string} */
 function scanStdin() {
-    if ($stdin) {
+    if (!!$stdin) {
         return $stdin.value;
     }
     return "";
 }
 
+/**
+ * @param {string} text=""
+ * @returns {void}
+ */
 function printStdout(text = "") {
-    if ($stdout) {
-        $stdout.innerText = "\n" + text;
+    if (!!$stdout) {
+        // SEE https://developer.mozilla.org/docs/Web/API/Element/animate
+        $stdout.animate([{ opacity: "0" }, { opacity: "1" }], 1000);
+        $stderr.animate([{ opacity: "0" }, { opacity: "1" }], 1000);
+        $stdout.innerText = text;
     }
 }
 
+/**
+ * @param {string} text=""
+ * @returns {void}
+ */
 function printStderr(text = "") {
-    if ($stderr) {
-        $stderr.innerText = "\n" + text;
+    if (!!$stderr) {
+        $stdout.animate([{ opacity: "0" }, { opacity: "1" }], 1000);
+        $stderr.animate([{ opacity: "0" }, { opacity: "1" }], 1000);
+        $stderr.innerText = text;
     }
 }
