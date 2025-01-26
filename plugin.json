@@ -1,15 +1,17 @@
 {
     "id": "acode.plugin.asc",
     "name": "Acode Plugin ASC",
-    "version": "0.0.2",
+    "keywords": ["wasm", "assemblyscript", "asc"],
+    "version": "0.0.3",
     "main": "dist/main.js",
     "readme": "readme.md",
     "icon": "icon.png",
+    "files": ["lib/asc.js"],
     "minVersionCode": 290,
     "price": 0,
+    "license": "Apache-2.0",
     "author": {
         "name": "K79SN4",
-        "email": "",
         "github": "k79sn4/acode-plugin-asc"
     }
 }
