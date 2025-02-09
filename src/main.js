@@ -112,14 +112,21 @@ class AcodePluginASC {
 
     /** @returns {Promise<void>} */
     async compileProject() {
-        await this.loadASC();
+        // cleanup first
+        app.printStdout("");
+        app.printStderr("");
 
+        await this.loadASC();
         this.#stdout.reset();
         this.#stderr.reset();
 
         await this.#runMain();
-        app.printStdout(this.#stdout.toString());
-        app.printStderr(this.#stderr.toString());
+        if (this.#stdout.length) {
+            app.printStdout(this.#stdout.toString());
+        }
+        if (this.#stderr.length) {
+            app.printStderr(this.#stderr.toString());
+        }
     }
 
     /** @returns {Promise<void>} */
