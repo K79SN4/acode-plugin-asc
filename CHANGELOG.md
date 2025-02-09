@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]  
-*(No changes yet)*
+
+### Added
+- Upgraded to AssemblyScript version 0.27.32.
+- Added plugin setting to Enable/Disable sidebar app.
+
+### Fixed
+- Allowed loading the AssemblyScript compiler in 'asc-compile-project' command.
 
 ## [0.0.3] - 2025-01-26
 
@@ -17,7 +23,7 @@ All notable changes to this project will be documented in this file.
 ## [0.0.2] - 2025-01-03
 
 ### Fixed
-- Configured `ESBuild` to use the `IIFE` format.
+- Configured ESBuild to use the IIFE format.
 
 ## [0.0.1] - 2025-01-02
 

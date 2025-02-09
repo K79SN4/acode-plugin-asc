@@ -15,9 +15,9 @@ try {
         target: ["es2024"],
         format: "esm",
         outdir: distLib,
-        entryPoints: [
-            "assemblyscript/asc"
-        ],
+        entryPoints: {
+            "asc": "assemblyscript/asc"
+        },
         splitting: false,
         treeShaking: true,
         minify: true,
