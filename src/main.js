@@ -1,4 +1,6 @@
 /** @type {object} */
+const globalSettings = acode.require("settings");
+/** @type {object} */
 const sidebarApps = acode.require("sidebarApps");
 
 import plugin from "../plugin.json";
@@ -8,61 +10,119 @@ import utils from "./utils.js";
 class AcodePluginASC {
     /** @type {string} */
     baseUrl = "";
-    /** @type {object} */
+    /** @type {object|null} */
+    #pluginSettings = null;
+    /** @type {boolean} */
+    #sidebarMounted = false;
+    /** @type {object|null} asc */
     #asc = null;
-    /** @type {object} asc.MemoryStream */
+    /** @type {object|null} asc.MemoryStream */
     #stdout = null;
-    /** @type {object} asc.MemoryStream */
+    /** @type {object|null} asc .MemoryStream */
     #stderr = null;
-    /** @returns {void} */
-    async init() {
-        sidebarApps.add(
-            app.icon,
-            app.id,
-            app.title,
-            app.onInit,
-            app.prepend,
-            this.#loadASC.bind(this)
-        );
-        acode.define("asc-compile-project", this.#compileProject.bind(this));
+
+    constructor() {
+        this.#pluginSettings = globalSettings.value[plugin.id] || null;
+        if (!this.#pluginSettings) {
+            globalSettings.value[plugin.id] = this.#pluginSettings = {
+                sidebar: true,
+            };
+            globalSettings.update(false);
+        }
+
+        this.onSettingChange = this.onSettingChange.bind(this);
+        this.loadASC = this.loadASC.bind(this);
+        this.compileProject = this.compileProject.bind(this);
     }
-    /** @returns {void} */
+
+    /** @returns {Promise<void>} */
+    async init() {
+        acode.define("asc-compile-project", this.compileProject);
+        this.renderSidebar(!!this.#pluginSettings.sidebar);
+    }
+
+    /** @returns {Promise<void>} */
     async destroy() {
         // FIXME noop doesn't throw or warn
         acode.define("asc-compile-project", utils.noop);
-        sidebarApps.remove(app.id);
-        this.#asc = null;
-        this.#stdout = null;
-        this.#stderr = null;
+        this.renderSidebar(false);
+
+        this.#asc = this.#stdout = this.#stderr = this.#pluginSettings = null;
+
+        delete globalSettings.value[plugin.id];
+        globalSettings.update(false);
     }
-    /** @returns {void} */
-    async #loadASC() {
-        if (this.#asc) {
-            return;
+
+    /**
+     * @param {boolean} mount=false
+     * @returns {void}
+     */
+    renderSidebar(mount = false) {
+        if (mount) {
+            if (this.#sidebarMounted) return;
+            sidebarApps.add(
+                app.icon,
+                app.id,
+                app.title,
+                app.onInit,
+                app.prepend,
+                this.loadASC,
+            );
+            this.#sidebarMounted = true;
+        } else {
+            if (!this.#sidebarMounted) return;
+            sidebarApps.remove(plugin.id);
+            this.#sidebarMounted = false;
         }
-        this.#asc = await import(this.baseUrl + "lib/asc.js");
+    }
+
+    /** @returns {object[]} */
+    get settingList() {
+        return [
+            {
+                key: "sidebar",
+                text: "ASC Sidebar",
+                info: "Enable/disable sidebar app for ASC",
+                checkbox: !!this.#pluginSettings.sidebar,
+         },
+      ];
+    }
+
+    /**
+     * @param {string} key
+     * @param {any} value
+     * @returns {void}
+     */
+    onSettingChange(key, value) {
+        globalSettings.value[plugin.id][key] = this.#pluginSettings[key] = value;
+        globalSettings.update(false);
+
+        this.renderSidebar(!!this.#pluginSettings.sidebar);
+    }
+
+    /** @returns {Promise<void>} */
+    async loadASC() {
+        if (this.#asc) return;
+
+        this.#asc = await import(`${this.baseUrl}lib/asc.js`);
         this.#stdout = this.#asc.createMemoryStream();
         this.#stderr = this.#asc.createMemoryStream();
         // app.printStdout("Version " + this.#asc.version);
     }
-    /** @returns {void} */
-    async #compileProject() {
-        if (!this.#asc) {
-            return;
-        }
-        app.printStdout("");
-        app.printStderr("");
+
+    /** @returns {Promise<void>} */
+    async compileProject() {
+        await this.loadASC();
+
         this.#stdout.reset();
         this.#stderr.reset();
+
         await this.#runMain();
-        if (this.#stdout.length) {
-            app.printStdout(this.#stdout.toString());
-        }
-        if (this.#stderr.length) {
-            app.printStderr(this.#stderr.toString());
-        }
+        app.printStdout(this.#stdout.toString());
+        app.printStderr(this.#stderr.toString());
     }
-    /** @returns {void} */
+
+    /** @returns {Promise<void>} */
     async #runMain() {
         if (utils.getBaseDir() === "") {
             app.printStderr("Open a folder to enable compilation.");
@@ -90,19 +150,25 @@ class AcodePluginASC {
 }
 
 if (window.acode) {
-    /** @type {object} */
-    const acodePlugin = new AcodePluginASC();
+    const pluginInstance = new AcodePluginASC();
+
     acode.setPluginInit(
         plugin.id,
         async (baseUrl, $page, { cacheFileUrl, cacheFile }) => {
             if (!baseUrl.endsWith("/")) {
                 baseUrl += "/";
             }
-            acodePlugin.baseUrl = baseUrl;
-            await acodePlugin.init($page, cacheFile, cacheFileUrl);
-        }
+            pluginInstance.baseUrl = baseUrl;
+
+            await pluginInstance.init($page, cacheFile, cacheFileUrl);
+        },
+        {
+            list: pluginInstance.settingList,
+            cb: pluginInstance.onSettingChange,
+        },
     );
-    acode.setPluginUnmount(plugin.id, () => {
-        acodePlugin.destroy();
+
+    acode.setPluginUnmount(plugin.id, async () => {
+        await pluginInstance.destroy();
     });
 }
