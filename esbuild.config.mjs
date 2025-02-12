@@ -7,7 +7,7 @@ function packZip(callback) {
             console.error("Error packing zip:", err);
             return;
         }
-        if (typeof callback == "function") callback();
+        if (typeof callback === "function") callback();
         console.log(stdout.trim());
     });
 }
@@ -18,6 +18,8 @@ const zipPlugin = {
         build.onEnd(packZip);
     },
 };
+
+const isServe = process.argv.includes("--serve");
 
 const buildConfig = {
     logLevel: "info",
@@ -31,12 +33,10 @@ const buildConfig = {
     ],
     splitting: false,
     treeShaking: true,
-    minify: true,
+    minify: isServe,
     bundle: true,
     plugins: [zipPlugin],
 };
-
-const isServe = process.argv.includes("--serve");
 
 const serveConfig = {
     servedir: ".",
