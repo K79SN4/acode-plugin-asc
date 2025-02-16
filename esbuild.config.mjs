@@ -33,7 +33,7 @@ const buildConfig = {
     ],
     splitting: false,
     treeShaking: true,
-    minify: isServe,
+    minify: isServe? false: true,
     bundle: true,
     plugins: [zipPlugin],
 };
