@@ -8,7 +8,7 @@
         "assemblyscript",
         "acode"
     ],
-    "version": "0.0.2",
+    "version": "0.0.4",
     "author": "K79SN4",
     "license": "Apache-2.0",
     "repository": {
@@ -26,7 +26,7 @@
     "dependencies": {
         "@types/ace": "^0.0.52",
         "html-tag-js": "^1.8.2",
-        "assemblyscript": "^0.27.33"
+        "assemblyscript": "^0.27.34"
     },
     "scripts": {
         "assets": "node scripts/esbuild-assets.mjs",
