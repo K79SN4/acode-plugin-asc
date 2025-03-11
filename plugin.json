@@ -4,15 +4,16 @@
     "keywords": ["wasm", "assemblyscript", "asc"],
     "version": "0.0.4",
     "main": "dist/main.js",
-    "readme": "readme.md",
-    "icon": "icon.png",
     "files": ["lib/asc.js"],
-    "changelog": "chaneglog.md",
+    "icon": "icon.png",
+    "readme": "README.md",
+    "changelogs": "CHANGELOG.md",
     "minVersionCode": 290,
     "price": 0,
     "license": "Apache-2.0",
     "author": {
         "name": "K79SN4",
         "github": "k79sn4/acode-plugin-asc"
-    }
+    },
+    "contributors": []
 }
