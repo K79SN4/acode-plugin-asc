@@ -10,6 +10,7 @@ let readmeDotMd = path.join(__dirname, "../readme.md");
 if (!fs.existsSync(readmeDotMd)) {
     readmeDotMd = path.join(__dirname, "../README.md");
 }
+const changeLogs = path.join(__dirname, "../CHANGELOG.md");
 const distZipFile = path.join(__dirname, "../dist.zip");
 
 
@@ -18,7 +19,9 @@ const zip = new JsZip();
 zip.file("icon.png", fs.readFileSync(iconFile));
 zip.file("plugin.json", fs.readFileSync(pluginJSON));
 zip.file("readme.md", fs.readFileSync(readmeDotMd));
+zip.file("changelog.md", fs.readFileSync(changeLogs));
 loadFiles("", distFolder);
+
 zip.generateNodeStream({
         type: "nodebuffer",
         streamFiles: true
