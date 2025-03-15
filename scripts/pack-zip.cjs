@@ -43,7 +43,7 @@ function loadFiles(root, folder) {
             );
             return;
         }
-        if (!/LICENSE(?:\.txt)?/.test(file)) {
+        if (!/LICENSE.txt/.test(file)) {
             zip.file(
                 path.join(root, file),
                 fs.readFileSync(path.join(folder, file))

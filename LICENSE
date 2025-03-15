@@ -203,4 +203,4 @@
 ==============================================================================
 
 The AssemblyScript project (https://github.com/AssemblyScript/assemblyscript)
-is used in this repository, and it has the Apache License Version 2.0, see dist/lib/LICENSE.txt.
+is used in this repository, and it has the Apache License Version 2.0, see dist/lib/LICENSE-asc.txt.
