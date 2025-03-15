@@ -95,6 +95,6 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](https:/
 
 ---
 
-## Changelog
+## Changes
 
 See the [CHANGELOG](https://github.com/k79sn4/acode-plugin-asc/tree/main/CHANGELOG.md) for details on recent changes.
