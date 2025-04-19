@@ -41,7 +41,7 @@ function SidebarStyle() {
  .acode-plugin-asc #compile-project-button:hover:active { background-color: #0066cc; transform: scale(0.95); }
  .acode-plugin-asc #stdin { width: 100%; min-height: 2rem; padding: 0.5rem; }
  .acode-plugin-asc #stdin::placeholder { opacity: 0.5; }
- .acode-plugin-asc ul { overflow-y: auto; overflow-x: hidden; }
+ .acode-plugin-asc ul { overflow-y: auto; overflow-x: hidden; align-self: flex-start; }
  .acode-plugin-asc #stdout, .acode-plugin-asc #stderr { max-height: fit-content; width: 100%; min-height: 1rem; animation-duration: 2s; }
  .acode-plugin-asc .red-text { color: orangered; } 
  .acode-plugin-asc .green-text { color: mediumseagreen; } 
