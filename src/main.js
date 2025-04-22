@@ -95,7 +95,8 @@ class AcodePluginASC {
      */
     onSettingChange(key, value) {
         globalSettings.value[plugin.id][key] = this.#pluginSettings[key] = value;
-        globalSettings.update(false);
+        // SEE https://github.com/Acode-Foundation/Acode/blob/807b45ea25ac916fe74ac18f9e8e10e1281b5074/src/lib/settings.js#L249
+        globalSettings.update(true);
 
         this.renderSidebar(!!this.#pluginSettings.sidebar);
     }
