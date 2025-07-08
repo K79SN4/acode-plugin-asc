@@ -2,7 +2,7 @@
     "id": "acode.plugin.asc",
     "name": "Acode Plugin ASC",
     "keywords": ["wasm", "assemblyscript", "asc"],
-    "version": "0.0.5",
+    "version": "0.0.7",
     "main": "dist/main.js",
     "files": ["lib/asc.js"],
     "icon": "icon.png",
