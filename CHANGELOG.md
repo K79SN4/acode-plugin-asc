@@ -2,9 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [Unreleased] yyyy-mm-dd
 
 **No changes yet**
+
+## [0.0.7] 2025-07-08
+
+### Added
+
+- Upgraded to Assemblyscript version 0.28.2.
+- Added text selection on `STDOUT` and `STDERR` fields.
+- Show toast notification on setting update.
 
 ## [0.0.5] 2025-03-15
 
