@@ -20,13 +20,13 @@
     },
     "homepage": "https://github.com/k79sn4/acode-plugin-asc#readme",
     "devDependencies": {
-        "esbuild": "^0.25.0",
+        "esbuild": "^0.25.6",
         "jszip": "^3.10.1"
     },
     "dependencies": {
         "@types/ace": "^0.0.52",
-        "html-tag-js": "^2.0.4",
-        "assemblyscript": "^0.27.35"
+        "html-tag-js": "^2.3.5",
+        "assemblyscript": "^0.28.2"
     },
     "scripts": {
         "assets": "node scripts/esbuild-assets.mjs",
