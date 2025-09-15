@@ -8,7 +8,7 @@
         "assemblyscript",
         "acode"
     ],
-    "version": "0.0.5",
+    "version": "0.0.6",
     "author": "K79SN4",
     "license": "Apache-2.0",
     "repository": {
@@ -20,13 +20,13 @@
     },
     "homepage": "https://github.com/k79sn4/acode-plugin-asc#readme",
     "devDependencies": {
-        "esbuild": "^0.25.6",
+        "esbuild": "^0.25.9",
         "jszip": "^3.10.1"
     },
     "dependencies": {
         "@types/ace": "^0.0.52",
-        "html-tag-js": "^2.3.5",
-        "assemblyscript": "^0.28.2"
+        "html-tag-js": "^2.4.13",
+        "assemblyscript": "^0.28.8"
     },
     "scripts": {
         "assets": "node scripts/esbuild-assets.mjs",
