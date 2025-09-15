@@ -61,7 +61,7 @@ Acode plugin for using the [AssemblyScript](https://www.assemblyscript.org/) com
 2. **Pass Arguments**:  
    Use the textarea (marked as `ARGV`) to provide custom arguments for the compiler.
 3. **Compile Project**:  
-   Click the `Run` button to compile the current project (the top-most folder opened in Acode).
+   Click the `Compile` button to compile the current project (the top-most folder opened in Acode).
    
    Output messages are displayed in the `STDOUT` section, and errors in the `STDERR` section.
 
@@ -77,9 +77,9 @@ Acode plugin for using the [AssemblyScript](https://www.assemblyscript.org/) com
 ## Testing the Plugin
 
 1. Open an AssemblyScript project in Acode.
-2. Launch the plugin from the sidebar.
+2. Launch the plugin from the sidebar (ensure sidebar is enabled in plugin setting).
 3. Provide arguments in the `ARGV` field.
-4. Click the `Run` button and verify the output in `STDOUT` and `STDERR` fields.
+4. Click the `Compile` button and verify the output in `STDOUT` and `STDERR` fields.
 
 ---
 
