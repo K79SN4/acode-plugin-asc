@@ -2,7 +2,7 @@
     "id": "acode.plugin.asc",
     "name": "Acode Plugin ASC",
     "keywords": ["wasm", "assemblyscript", "asc"],
-    "version": "0.0.7",
+    "version": "0.0.8",
     "main": "dist/main.js",
     "files": ["lib/asc.js"],
     "icon": "icon.png",
@@ -15,5 +15,6 @@
         "name": "K79SN4",
         "github": "k79sn4"
     },
+    "repository": "https://github.com/k79sn4/acode-plugin-asc",
     "contributors": []
 }

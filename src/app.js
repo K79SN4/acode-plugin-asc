@@ -39,7 +39,7 @@ function SidebarStyle() {
  .acode-plugin-asc label { font-size: 14px; font-weight: bold; }
  .acode-plugin-asc #compile-project-button { margin: 10px 0; width: 100%; padding: 0.5rem; font-size: 1rem; background: dodgerblue; color: white; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s ease, background-color 0.3s ease; }
  .acode-plugin-asc #compile-project-button:hover:active { background-color: #0066cc; transform: scale(0.95); }
- .acode-plugin-asc #stdin { width: 100%; min-height: 2rem; padding: 0.5rem; }
+ .acode-plugin-asc #stdin { width: 100%; min-height: 4rem; padding: 0.5rem; }
  .acode-plugin-asc #stdin::placeholder { opacity: 0.5; }
  .acode-plugin-asc ul { max-width: 100%; overflow-y: auto; overflow-x: hidden; align-self: flex-start; }
  .acode-plugin-asc #stdout, .acode-plugin-asc #stderr { max-height: fit-content; width: 100%; min-height: 1rem; animation-duration: 2s; user-select: text; }
