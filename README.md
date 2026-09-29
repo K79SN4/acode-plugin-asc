@@ -49,7 +49,7 @@ Acode plugin for using the [AssemblyScript](https://www.assemblyscript.org/) com
 -   Compile AssemblyScript projects directly within Acode.
 -   Pass [arguments](https://www.assemblyscript.org/compiler.html#compiler-options) to the compiler.
 -   View compilation output and errors.
--   Read and write support for existing files using Acode's [file system API](https://acode.app/plugin-docs/fs-operation?title=Fs%20Operation).
+-   Read and write support for existing files using Acode's [file system API](https://docs.acode.app/docs/utilities/fs).
 -   **Limitation**: Creating new files is not supported in the current version.
 
 ---
@@ -59,7 +59,7 @@ Acode plugin for using the [AssemblyScript](https://www.assemblyscript.org/) com
 1. **Open the Plugin**:  
    Tap the plugin icon in Acode's sidebar to access the interface.
 2. **Pass Arguments**:  
-   Use the textarea (marked as `ARGV`) to provide custom arguments for the compiler.
+   Use the textarea (marked as `STDIN`) to provide custom arguments for the compiler.
 3. **Compile Project**:  
    Click the `Compile` button to compile the current project (the top-most folder opened in Acode).
    
@@ -78,7 +78,7 @@ Acode plugin for using the [AssemblyScript](https://www.assemblyscript.org/) com
 
 1. Open an AssemblyScript project in Acode.
 2. Launch the plugin from the sidebar (ensure sidebar is enabled in plugin setting).
-3. Provide arguments in the `ARGV` field.
+3. Provide arguments in the `STDIN` field.
 4. Click the `Compile` button and verify the output in `STDOUT` and `STDERR` fields.
 
 ---

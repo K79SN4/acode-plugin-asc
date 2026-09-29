@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 **No changes yet**
 
+## [0.0.9] 2026-09-29
+
+### Added
+
+- Upgraded to Assemblyscript version 0.28.20.
+
+### Fixed
+
+- Minor visual changes to compiler option input.
+
 ## [0.0.8] 2025-10-20
 
 ### Added
