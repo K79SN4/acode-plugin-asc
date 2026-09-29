@@ -73,7 +73,7 @@ function SidebarInput() {
     return tag("div", {
         children: [
             ProjectButton(),
-            tag("label", { className: "blue-text", for: "stdin", textContent: "ARGV" }),
+            tag("label", { className: "blue-text", for: "stdin", textContent: "STDIN" }),
             Stdin(),
         ],
     });
