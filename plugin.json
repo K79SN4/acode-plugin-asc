@@ -1,14 +1,16 @@
 {
+    "$schema": "https://acode.app/schema/plugin/v0.1.0.json",
     "id": "acode.plugin.asc",
     "name": "Acode Plugin ASC",
     "keywords": ["wasm", "assemblyscript", "asc"],
-    "version": "0.0.8",
+    "version": "0.0.9",
     "main": "dist/main.js",
     "files": ["lib/asc.js"],
     "icon": "icon.png",
     "readme": "README.md",
     "changelogs": "CHANGELOG.md",
     "minVersionCode": 290,
+    "permissions": [],
     "price": 0,
     "license": "Apache-2.0",
     "author": {
