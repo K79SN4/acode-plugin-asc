@@ -25,7 +25,7 @@ const buildConfig = {
     logLevel: "info",
     color: true,
     platform: "browser",
-    target: ["es2024"],
+    target: ["chrome90"],
     format: "iife",
     outdir: "dist",
     entryPoints: [

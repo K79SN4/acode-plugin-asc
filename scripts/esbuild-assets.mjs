@@ -26,6 +26,7 @@ try {
             "path",
             "url",
             "module",
+            "node:module",
             "fs",
         ],
     });
