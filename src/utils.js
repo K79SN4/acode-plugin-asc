@@ -116,7 +116,7 @@ export async function readFile(filePath, baseDir) {
     try {
         /** @type {object} */
         const pathFd = fs(path);
-        if (await fd?.exists?.()) {
+        if (await pathFd?.exists?.()) {
             /** @type {Uint8Array} */
             const buf = await pathFd?.readFile?.();
             /** @type {string} */
