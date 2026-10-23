@@ -15,6 +15,7 @@ export default {
     listFiles,
     readFile,
     writeFile,
+    createFile,
 };
 
 /** @returns {void} */
@@ -31,7 +32,7 @@ export function parseArgv(text = "") {
     let inSingleQuote = false;
     let inDoubleQuote = false;
     let escapeNext = false;
-
+    
     for (let i = 0; i < text.length; i++) {
         const ch = text[i];
         if (escapeNext) {
@@ -86,13 +87,13 @@ export async function listFiles(dirName, baseDir) {
         baseDir = getBaseDir();
     }
     /** @type {string} */
-    const path = url.join(baseDir, fileName);
+    const path = url.join(baseDir, dirName);
     try {
         /** @type {object} */
-        const fd = fs(path);
-        if (!(await fd?.exists?.())) {
+        const pathFd = fs(path);
+        if (!(await pathFd?.exists?.())) {
             /** @type {object[]} */
-            const list = await fd.lsDir();
+            const list = await pathFd?.lsDir?.();
             return list.map(entry => entry.url);
         }
     } catch (e) {
@@ -102,22 +103,22 @@ export async function listFiles(dirName, baseDir) {
 }
 
 /**
- * @param {string} fileName
+ * @param {string} filePath
  * @param {string} [baseDir]
  * @returns {Promise<string|null>}
  */
-export async function readFile(fileName, baseDir) {
+export async function readFile(filePath, baseDir) {
     if (!baseDir || baseDir === ".") {
         baseDir = getBaseDir();
     }
     /** @type {string} */
-    const path = url.join(baseDir, fileName);
+    const path = url.join(baseDir, filePath);
     try {
         /** @type {object} */
-        const fd = fs(path);
+        const pathFd = fs(path);
         if (await fd?.exists?.()) {
             /** @type {Uint8Array} */
-            const buf = await fd.readFile();
+            const buf = await pathFd?.readFile?.();
             /** @type {string} */
             const text = await encodings.decode(buf, "UTF-8");
             return text ?? "";
@@ -129,12 +130,12 @@ export async function readFile(fileName, baseDir) {
 }
 
 /**
- * @param {string} fileName
+ * @param {string} filePath
  * @param {Uint8Array|string} content 
  * @param {string} [baseDir] 
  * @returns {Promise<void>}
  */
-export async function writeFile(fileName, content, baseDir) {
+export async function writeFile(filePath, content, baseDir) {
     /** @type {ArrayBuffer|syring} */
     let data = "";
     if (content instanceof Uint8Array) {
@@ -146,19 +147,80 @@ export async function writeFile(fileName, content, baseDir) {
         baseDir = getBaseDir();
     }
     /** @type {string} */
-    const path = url.join(baseDir, fileName);
+    const path = url.join(baseDir, filePath);
     try {
         /** @type {object} */
-        const fd = fs(path);
-        if (await fd?.exists?.()) {
-            fd.writeFile(
+        const pathFd = fs(path);
+        if (await pathFd?.exists?.()) {
+            await pathFd?.writeFile?.(
                 data //, "UTF-8"
             );
-            return;
+        } else {
+            await createFile(
+                filePath,
+                content,
+                baseDir
+            );
         }
-        // FIXME create file recursively starting from base directory.
-        // It seems fine to just inform the user to create the missing file.
-        app.printStdout("Please create new file '" + fileName + "' to avoid permission issues");
+        return;
+    } catch (e) {
+        app.printStderr(e);
+    }
+    return;
+}
+
+/**
+ * @param {string} filePath
+ * @param {Uint8Array|string} content
+ * @param {string} [baseDir] 
+ * @returns {Promise<void>}
+ */
+export async function createFile(filePath, content, baseDir) {
+    let data = "";
+    if (content instanceof Uint8Array) {
+        data = content.buffer;
+    } else if (typeof content === "string") {
+        data = content;
+    }
+    if (!baseDir || baseDir === ".") {
+        baseDir = getBaseDir();
+    }
+    /** @type {string[]} */
+    const dirs = filePath.split(/[/]+/).filter(Boolean);
+    /** @type {string} */
+    const fileName = dirs.pop();
+    try {
+        /** @type {string} */
+        let cwd = baseDir;
+        
+        for (const dir of dirs) {
+            /** @type {object} */
+            const cwdFd = fs(cwd);
+            /** @type {string} */
+            const dirPath = url.join(cwd, dir);
+            /** @type {object} */
+            const dirFd = fs(dirPath);
+            if (!(await dirFd?.exists?.())) {
+                await cwdFd?.createDirectory?.(dir);
+            }
+            cwd = dirPath;
+        } // for
+        
+        /** @type {object} */
+        const cwdFd = fs(cwd);
+        /** @type {string} */
+        const path = url.join(cwd, fileName);
+        /** @type {object} */
+        const pathFd = fs(path);
+        if (!(await pathFd?.exists?.())) {
+            await cwdFd?.createFile?.(
+                fileName, data
+            );
+        } else {
+            await pathFd?.writeFile?.(
+                data //, "UTF-8"
+            );
+        }
         return;
     } catch (e) {
         app.printStderr(e);
