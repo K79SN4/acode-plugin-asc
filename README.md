@@ -50,7 +50,7 @@ Acode plugin for using the [AssemblyScript](https://www.assemblyscript.org/) com
 -   Pass [arguments](https://www.assemblyscript.org/compiler.html#compiler-options) to the compiler.
 -   View compilation output and errors.
 -   Read and write support for existing files using Acode's [file system API](https://docs.acode.app/docs/utilities/fs).
--   **Limitation**: Creating new files is not supported in the current version.
+-   Creating new files within project supported since version `0.0.10`.
 
 ---
 
@@ -68,8 +68,8 @@ Acode plugin for using the [AssemblyScript](https://www.assemblyscript.org/) com
 4. **Programmatic Use**:  
    Execute the compiler by calling the registered command:
     ```javascript
-    const action = acode.require("asc-compile-project");
-    action();
+    const compile = acode.require("asc-compile-project");
+    compile();
     ```
 
 ---
